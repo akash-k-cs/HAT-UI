@@ -284,11 +284,12 @@ Category data (JSON structure).
 
 ### 🏔️ featured_trek (Multiple Entries)
 
-Featured trek cards.
+Featured trek cards displayed on the homepage.
 
 | Field Name | Field UID | Field Type | Required |
 |------------|-----------|------------|----------|
 | Title | title | Single Line Text | Yes |
+| Slug | slug | Single Line Text | Yes |
 | Name | name | Single Line Text | Yes |
 | Image | image | File | Yes |
 | Difficulty | difficulty | Single Line Text | Yes |
@@ -440,6 +441,51 @@ Legal/footer links.
 | Title | title | Single Line Text | Yes |
 | URL | url | Single Line Text | Yes |
 | Order | order | Number | Yes |
+
+---
+
+### 🏔️ trek_detail (Multiple Entries - Page)
+
+Detailed trek information pages.
+
+| Field Name | Field UID | Field Type | Required |
+|------------|-----------|------------|----------|
+| Title | title | Single Line Text | Yes |
+| URL | url | Single Line Text | Yes (unique) |
+| Slug | slug | Single Line Text | Yes (unique) |
+| Name | name | Single Line Text | Yes |
+| Tagline | tagline | Single Line Text | No |
+| Hero Image URL | hero_image | Single Line Text | No |
+| Gallery URLs (JSON) | gallery | Multi Line Text | No |
+| Difficulty | difficulty | Single Line Text | Yes |
+| Duration | duration | Single Line Text | Yes |
+| Altitude | altitude | Single Line Text | Yes |
+| Price | price | Number | Yes |
+| Original Price | original_price | Number | No |
+| Rating | rating | Number | No |
+| Reviews Count | reviews_count | Number | No |
+| Region | region | Single Line Text | Yes |
+| State | state | Single Line Text | No |
+| Best Months (JSON) | best_months | Multi Line Text | No |
+| Trek Distance | trek_distance | Single Line Text | No |
+| Base Camp | base_camp | Single Line Text | No |
+| Group Size | group_size | Single Line Text | No |
+| Pickup Point | pickup_point | Single Line Text | No |
+| Short Description | short_description | Multi Line Text | No |
+| Overview | overview | Multi Line Text | No |
+| Highlights (JSON) | highlights | Multi Line Text | No |
+| Itinerary (JSON) | itinerary | Multi Line Text | No |
+| Inclusions (JSON) | inclusions | Multi Line Text | No |
+| Exclusions (JSON) | exclusions | Multi Line Text | No |
+| Things to Carry (JSON) | things_to_carry | Multi Line Text | No |
+| Weather (JSON) | weather | Multi Line Text | No |
+| Upcoming Batches (JSON) | upcoming_batches | Multi Line Text | No |
+| Reviews (JSON) | reviews | Multi Line Text | No |
+| FAQs (JSON) | faqs | Multi Line Text | No |
+| Trek Leader (JSON) | trek_leader | Multi Line Text | No |
+| Order | order | Number | No |
+
+**Note:** JSON fields should contain stringified JSON arrays or objects. Use `JSON.stringify()` when setting values and `JSON.parse()` when reading.
 
 ---
 

@@ -81,6 +81,13 @@
   transition: all var(--transition-fast);
   text-align: center;
   min-width: 120px;
+  text-decoration: none;
+}
+
+.category-item__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .category-item:hover {
@@ -200,6 +207,15 @@
 
 .trek-card__content {
   padding: var(--space-lg);
+}
+
+.trek-card__header-link {
+  text-decoration: none;
+  display: block;
+}
+
+.trek-card__header-link:hover .trek-card__name {
+  color: var(--accent-primary);
 }
 
 .trek-card__header {

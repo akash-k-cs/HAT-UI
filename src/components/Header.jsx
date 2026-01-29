@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Mountain, ChevronDown, User, Phone, ShoppingBag } from 'lucide-react'
 import { useEntries, useSingleEntry } from '../hooks/useContentstack'
@@ -7,28 +8,30 @@ import './Header.css'
 // Fallback data when CMS is not configured
 const defaultNavItems = [
   { 
-    title: 'All Treks', 
+    title: 'All Treks',
+    url: '/treks',
     has_dropdown: true,
     dropdown_items: [
-      { title: 'Treks by Month' },
-      { title: 'Treks by Difficulty' },
-      { title: 'Treks by Region' },
-      { title: 'Treks by Duration' }
+      { title: 'Treks by Month', url: '/treks?month=January' },
+      { title: 'Treks by Difficulty', url: '/treks?difficulty=Moderate' },
+      { title: 'Treks by Region', url: '/treks?region=Uttarakhand' },
+      { title: 'Treks by Duration', url: '/treks?duration=5-6+Days' }
     ]
   },
-  { title: 'Upcoming Treks', has_dropdown: false },
-  { title: 'Summer Camps 2026', has_dropdown: false },
+  { title: 'Upcoming Treks', url: '/treks', has_dropdown: false },
+  { title: 'Summer Camps 2026', url: '/treks?month=May', has_dropdown: false },
   { 
     title: 'Special Treks', 
+    url: '/treks',
     has_dropdown: true,
     dropdown_items: [
-      { title: 'Family Treks' },
-      { title: 'Senior Treks' },
-      { title: 'Adventure Therapy' },
-      { title: 'Stargazing Treks' }
+      { title: 'Easy Treks', url: '/treks?difficulty=Easy' },
+      { title: 'Moderate Treks', url: '/treks?difficulty=Moderate' },
+      { title: 'Difficult Treks', url: '/treks?difficulty=Difficult' },
+      { title: 'Winter Treks', url: '/treks?month=December' }
     ]
   },
-  { title: 'Our Story', has_dropdown: false },
+  { title: 'Our Story', url: '/about', has_dropdown: false },
 ]
 
 const defaultSiteSettings = {
@@ -42,6 +45,7 @@ function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState(null)
+  const location = useLocation()
 
   // Fetch navigation items from CMS
   const { data: navItems } = useEntries('navigation', defaultNavItems)
@@ -57,17 +61,26 @@ function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false)
+  }, [location])
+
   // Map CMS data to component format
   const mappedNavItems = navItems.map(item => ({
     label: item.title || item.label,
+    url: item.url || '/treks',
     hasDropdown: item.has_dropdown || item.hasDropdown || false,
-    dropdownItems: item.dropdown_items?.map(d => d.title || d) || item.dropdownItems || []
+    dropdownItems: item.dropdown_items?.map(d => ({
+      label: d.title || d,
+      url: d.url || '/treks'
+    })) || item.dropdownItems || []
   }))
 
   return (
     <header className={`header ${isScrolled ? 'header--scrolled' : ''}`}>
       <div className="header__container">
-        <a href="/" className="header__logo">
+        <Link to="/" className="header__logo">
           <Mountain className="header__logo-icon" />
           <span className="header__logo-text">
             <span className="header__logo-main">
@@ -77,7 +90,7 @@ function Header() {
               {siteSettings?.logo_sub_text || 'Trekkers'}
             </span>
           </span>
-        </a>
+        </Link>
 
         <nav className="header__nav">
           {mappedNavItems.map((item, index) => (
@@ -87,10 +100,10 @@ function Header() {
               onMouseEnter={() => item.hasDropdown && setActiveDropdown(index)}
               onMouseLeave={() => setActiveDropdown(null)}
             >
-              <a href="#" className="header__nav-link">
+              <Link to={item.url} className="header__nav-link">
                 {item.label}
                 {item.hasDropdown && <ChevronDown className="header__nav-chevron" />}
-              </a>
+              </Link>
               
               <AnimatePresence>
                 {item.hasDropdown && activeDropdown === index && (
@@ -102,9 +115,13 @@ function Header() {
                     transition={{ duration: 0.2 }}
                   >
                     {item.dropdownItems.map((dropItem, dropIndex) => (
-                      <a key={dropIndex} href="#" className="header__dropdown-item">
-                        {dropItem}
-                      </a>
+                      <Link 
+                        key={dropIndex} 
+                        to={dropItem.url || '/treks'} 
+                        className="header__dropdown-item"
+                      >
+                        {dropItem.label || dropItem}
+                      </Link>
                     ))}
                   </motion.div>
                 )}
@@ -114,17 +131,17 @@ function Header() {
         </nav>
 
         <div className="header__actions">
-          <a href="#" className="header__action-btn">
+          <Link to="/treks" className="header__action-btn">
             <Phone size={18} />
             <span>{siteSettings?.contact_label || 'Contact'}</span>
-          </a>
-          <a href="#" className="header__action-btn">
+          </Link>
+          <Link to="/treks" className="header__action-btn">
             <ShoppingBag size={18} />
             <span>{siteSettings?.shop_label || 'Shop'}</span>
-          </a>
-          <a href="#" className="header__profile-btn">
+          </Link>
+          <Link to="/treks" className="header__profile-btn">
             <User size={20} />
-          </a>
+          </Link>
         </div>
 
         <button 
@@ -146,12 +163,12 @@ function Header() {
             transition={{ duration: 0.3 }}
           >
             {mappedNavItems.map((item, index) => (
-              <a key={index} href="#" className="header__mobile-link">
+              <Link key={index} to={item.url} className="header__mobile-link">
                 {item.label}
-              </a>
+              </Link>
             ))}
             <div className="header__mobile-actions">
-              <a href="#" className="btn btn-primary">View Upcoming Treks</a>
+              <Link to="/treks" className="btn btn-primary">View All Treks</Link>
             </div>
           </motion.div>
         )}

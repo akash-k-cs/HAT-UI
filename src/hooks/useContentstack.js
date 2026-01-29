@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getEntries, getSingleEntry, isConfigured } from '../lib/contentstack'
+import { getEntries, getSingleEntry, getEntryByField, isConfigured } from '../lib/contentstack'
 
 /**
  * Custom hook to fetch multiple entries from Contentstack
@@ -71,6 +71,48 @@ export function useSingleEntry(contentType, fallbackData = null) {
 
     fetchData()
   }, [contentType])
+
+  return { data, loading, error, isFromCMS: isConfigured }
+}
+
+/**
+ * Custom hook to fetch a single entry by a field value (e.g., slug)
+ * Falls back to provided default data if CMS is not configured or fetch fails
+ */
+export function useEntryByField(contentType, field, value, fallbackData = null) {
+  const [data, setData] = useState(fallbackData)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    if (!value) {
+      setLoading(false)
+      return
+    }
+
+    if (!isConfigured) {
+      setLoading(false)
+      return
+    }
+
+    async function fetchData() {
+      try {
+        setLoading(true)
+        const entry = await getEntryByField(contentType, field, value)
+        
+        if (entry) {
+          setData(entry)
+        }
+      } catch (err) {
+        console.error(`Error in useEntryByField for ${contentType}:`, err)
+        setError(err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [contentType, field, value])
 
   return { data, loading, error, isFromCMS: isConfigured }
 }
@@ -155,4 +197,3 @@ export function usePageContent() {
 
   return { content, loading, error, isFromCMS: isConfigured }
 }
-

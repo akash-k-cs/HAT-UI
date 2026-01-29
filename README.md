@@ -8,13 +8,16 @@ A beautiful, modern React.js website inspired by [Indiahikes.com](https://indiah
 - 💬 **Testimonials** - Horizontal scrolling testimonial cards
 - ✨ **Features Section** - 5 reasons why choose us with animated cards
 - 🗺️ **Trek Categories** - Browse treks by month, difficulty, duration, or region
+- 📋 **Trek Detail Pages** - Comprehensive trek pages with itinerary, pricing, reviews, and booking
 - ❓ **FAQ Section** - Accordion-style frequently asked questions
 - 📧 **Newsletter** - Email subscription form
 - 📱 **Fully Responsive** - Works on all device sizes
+- 🔗 **React Router** - Client-side routing for seamless navigation
 
 ## Tech Stack
 
 - **React 18** - Modern React with hooks
+- **React Router** - Client-side routing
 - **Vite** - Lightning-fast build tool
 - **Contentstack CMS** - Headless CMS for content management
 - **Framer Motion** - Smooth animations and transitions

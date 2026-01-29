@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Calendar, Mountain, Clock, MapPin, ArrowRight, Star } from 'lucide-react'
 import { useEntries, useSingleEntry } from '../hooks/useContentstack'
@@ -63,6 +64,7 @@ const defaultCategoryData = {
 const defaultFeaturedTreks = [
   {
     id: 1,
+    slug: "kedarkantha",
     name: "Kedarkantha",
     image: { url: "https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?w=800&q=80" },
     difficulty: "Easy - Moderate",
@@ -76,6 +78,7 @@ const defaultFeaturedTreks = [
   },
   {
     id: 2,
+    slug: "kashmir-great-lakes",
     name: "Kashmir Great Lakes",
     image: { url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80" },
     difficulty: "Moderate - Difficult",
@@ -89,6 +92,7 @@ const defaultFeaturedTreks = [
   },
   {
     id: 3,
+    slug: "rupin-pass",
     name: "Rupin Pass",
     image: { url: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80" },
     difficulty: "Difficult",
@@ -102,6 +106,7 @@ const defaultFeaturedTreks = [
   },
   {
     id: 4,
+    slug: "valley-of-flowers",
     name: "Valley of Flowers",
     image: { url: "https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=800&q=80" },
     difficulty: "Moderate",
@@ -184,20 +189,32 @@ function TrekCategories() {
             transition={{ duration: 0.3 }}
           >
             <div className="category-items">
-              {currentCategoryItems.map((item, index) => (
-                <motion.a
-                  href="#"
-                  key={item.name}
-                  className="category-item"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
-                  style={item.color ? { '--item-color': item.color } : {}}
-                >
-                  <span className="category-item__name">{item.name}</span>
-                  <span className="category-item__count">{item.count} treks</span>
-                </motion.a>
-              ))}
+              {currentCategoryItems.map((item, index) => {
+                // Build filter URL based on category type
+                const filterParam = activeCategory === 'month' ? `month=${item.name}`
+                  : activeCategory === 'difficulty' ? `difficulty=${encodeURIComponent(item.name)}`
+                  : activeCategory === 'duration' ? `duration=${encodeURIComponent(item.name)}`
+                  : `region=${encodeURIComponent(item.name)}`
+                
+                return (
+                  <Link
+                    to={`/treks?${filterParam}`}
+                    key={item.name}
+                    className="category-item"
+                    style={item.color ? { '--item-color': item.color } : {}}
+                  >
+                    <motion.span 
+                      className="category-item__inner"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3, delay: index * 0.05 }}
+                    >
+                      <span className="category-item__name">{item.name}</span>
+                      <span className="category-item__count">{item.count} treks</span>
+                    </motion.span>
+                  </Link>
+                )
+              })}
             </div>
           </motion.div>
         </AnimatePresence>
@@ -212,15 +229,16 @@ function TrekCategories() {
         >
           <div className="featured-treks__header">
             <h3 className="featured-treks__title">{settings?.featured_title || 'Popular Treks This Season'}</h3>
-            <a href="#" className="featured-treks__link">
+            <Link to="/treks" className="featured-treks__link">
               {settings?.view_all_text || 'View All Treks'}
               <ArrowRight size={18} />
-            </a>
+            </Link>
           </div>
 
           <div className="featured-treks__grid">
             {featuredTreks.map((trek, index) => {
               const imageUrl = trek.image?.url || trek.image
+              const trekSlug = trek.slug || trek.name.toLowerCase().replace(/\s+/g, '-')
               return (
                 <motion.div
                   key={trek.id || index}
@@ -234,19 +252,21 @@ function TrekCategories() {
                     <img src={imageUrl} alt={trek.name} />
                     <div className="trek-card__badge">{trek.difficulty}</div>
                     <div className="trek-card__overlay">
-                      <button className="btn btn-light">View Details</button>
+                      <Link to={`/trek/${trekSlug}`} className="btn btn-light">View Details</Link>
                     </div>
                   </div>
                   
                   <div className="trek-card__content">
-                    <div className="trek-card__header">
-                      <h4 className="trek-card__name">{trek.name}</h4>
-                      <div className="trek-card__rating">
-                        <Star size={14} fill="#facc15" color="#facc15" />
-                        <span>{trek.rating}</span>
-                        <span className="trek-card__reviews">({trek.reviews})</span>
+                    <Link to={`/trek/${trekSlug}`} className="trek-card__header-link">
+                      <div className="trek-card__header">
+                        <h4 className="trek-card__name">{trek.name}</h4>
+                        <div className="trek-card__rating">
+                          <Star size={14} fill="#facc15" color="#facc15" />
+                          <span>{trek.rating}</span>
+                          <span className="trek-card__reviews">({trek.reviews})</span>
+                        </div>
                       </div>
-                    </div>
+                    </Link>
                     
                     <div className="trek-card__meta">
                       <span><MapPin size={14} /> {trek.region}</span>

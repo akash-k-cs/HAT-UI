@@ -1,27 +1,25 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
-import Hero from './components/Hero'
-import Testimonials from './components/Testimonials'
-import Features from './components/Features'
-import TrekCategories from './components/TrekCategories'
-import FAQ from './components/FAQ'
 import Footer from './components/Footer'
+import HomePage from './pages/HomePage'
+import TreksPage from './pages/TreksPage'
+import TrekDetail from './pages/TrekDetail'
 import './App.css'
 
 function App() {
   return (
-    <div className="app">
-      <Header />
-      <main>
-        <Hero />
-        <Testimonials />
-        <Features />
-        <TrekCategories />
-        <FAQ />
-      </main>
-      <Footer />
-    </div>
+    <Router>
+      <div className="app">
+        <Header />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/treks" element={<TreksPage />} />
+          <Route path="/trek/:slug" element={<TrekDetail />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
   )
 }
 
 export default App
-

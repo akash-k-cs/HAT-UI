@@ -130,5 +130,30 @@ export async function getSingleEntry(contentType) {
   }
 }
 
+/**
+ * Fetch a single entry by a specific field value (e.g., slug)
+ */
+export async function getEntryByField(contentType, field, value) {
+  if (!Stack) {
+    console.warn('Contentstack not configured. Using fallback data.')
+    return null
+  }
+  
+  try {
+    const result = await Stack
+      .ContentType(contentType)
+      .Query()
+      .where(field, value)
+      .limit(1)
+      .toJSON()
+      .find()
+    
+    return result[0]?.[0] || null
+  } catch (error) {
+    console.error(`Error fetching entry by ${field}=${value} from ${contentType}:`, error)
+    return null
+  }
+}
+
 export { Stack, isConfigured }
 export default Stack

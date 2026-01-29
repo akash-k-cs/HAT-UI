@@ -1,0 +1,979 @@
+/* Trek Detail Page Styles */
+
+.trek-detail {
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+/* Loading & Error States */
+.trek-detail-loading,
+.trek-detail-error {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--border-color);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Hero Section */
+.trek-hero {
+  position: relative;
+  height: 70vh;
+  min-height: 500px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  padding: 4rem 5%;
+}
+
+.trek-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0.5) 50%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+}
+
+.trek-hero__content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+}
+
+.trek-hero__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  transition: color 0.2s;
+}
+
+.trek-hero__back:hover {
+  color: white;
+}
+
+.trek-hero__badge {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  background: var(--accent-primary);
+  color: white;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
+}
+
+.trek-hero__title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  color: white;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+  font-family: 'Playfair Display', serif;
+}
+
+.trek-hero__tagline {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1.5rem;
+}
+
+.trek-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.trek-hero__meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+}
+
+.trek-hero__meta-item.difficulty {
+  padding: 0.3rem 0.8rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50px;
+  font-weight: 500;
+}
+
+.trek-hero__rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.trek-hero__rating .stars {
+  display: flex;
+  gap: 2px;
+}
+
+.trek-hero__rating .rating-value {
+  font-weight: 700;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.trek-hero__rating .reviews-count {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.trek-hero__actions {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  gap: 0.75rem;
+  z-index: 2;
+}
+
+.trek-hero__action-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.trek-hero__action-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
+}
+
+/* Container */
+.trek-detail__container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 5%;
+}
+
+/* Quick Info Bar */
+.trek-quick-info {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  margin-top: -3rem;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.trek-quick-info__item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.trek-quick-info__item svg {
+  color: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+.trek-quick-info__item .label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.15rem;
+}
+
+.trek-quick-info__item .value {
+  display: block;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Main Layout */
+.trek-detail__main {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 3rem;
+  padding: 3rem 0;
+}
+
+/* Content Section */
+.trek-detail__content {
+  min-width: 0;
+}
+
+/* Tabs */
+.trek-tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 2px solid var(--border-color);
+  margin-bottom: 2rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.trek-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.trek-tab {
+  padding: 1rem 1.5rem;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.trek-tab::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent-primary);
+  transform: scaleX(0);
+  transition: transform 0.2s;
+}
+
+.trek-tab:hover {
+  color: var(--text-primary);
+}
+
+.trek-tab.active {
+  color: var(--accent-primary);
+}
+
+.trek-tab.active::after {
+  transform: scaleX(1);
+}
+
+/* Overview */
+.trek-overview h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.trek-overview__description {
+  margin-bottom: 2.5rem;
+}
+
+.trek-overview__description .short-desc {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+}
+
+.trek-overview__description .full-desc p {
+  margin-bottom: 1rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+
+/* Highlights */
+.trek-highlights {
+  background: var(--bg-secondary);
+  padding: 2rem;
+  border-radius: 16px;
+  margin-bottom: 2.5rem;
+}
+
+.trek-highlights ul {
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+}
+
+.trek-highlights li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.trek-highlights li svg {
+  color: #22c55e;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.trek-highlights li span {
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Gallery */
+.trek-gallery {
+  margin-bottom: 2.5rem;
+}
+
+.trek-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.trek-gallery__item {
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.trek-gallery__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.trek-gallery__item:hover img {
+  transform: scale(1.05);
+}
+
+/* Weather */
+.trek-weather {
+  margin-bottom: 2.5rem;
+}
+
+.trek-weather__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.weather-card {
+  background: var(--bg-secondary);
+  padding: 1.25rem;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.weather-card .month {
+  display: block;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  text-transform: capitalize;
+}
+
+.weather-card .temps {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.weather-card .high {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.weather-card .low {
+  color: #3b82f6;
+  font-weight: 600;
+}
+
+.weather-card .condition {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Trek Leader */
+.trek-leader {
+  margin-bottom: 2.5rem;
+}
+
+.trek-leader__card {
+  display: flex;
+  gap: 1.5rem;
+  background: var(--bg-secondary);
+  padding: 1.5rem;
+  border-radius: 16px;
+}
+
+.trek-leader__card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.trek-leader__info h4 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.trek-leader__stats {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.trek-leader__stats span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.trek-leader__info p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* Itinerary */
+.trek-itinerary h3 {
+  margin-bottom: 1.5rem;
+}
+
+.itinerary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.itinerary-day {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.itinerary-day__header {
+  display: flex;
+  align-items: center;
+  padding: 1.25rem;
+  cursor: pointer;
+  gap: 1rem;
+}
+
+.itinerary-day__number {
+  background: var(--accent-primary);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.itinerary-day__title {
+  flex: 1;
+}
+
+.itinerary-day__title h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+
+.itinerary-day__meta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.itinerary-day__meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.itinerary-day__content {
+  padding: 0 1.25rem 1.25rem 1.25rem;
+  overflow: hidden;
+}
+
+.itinerary-day__content p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.itinerary-day__details {
+  display: flex;
+  gap: 2rem;
+}
+
+.itinerary-day__details .detail {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.itinerary-day__details .detail svg {
+  color: var(--accent-primary);
+}
+
+/* Inclusions */
+.inclusions-section {
+  margin-bottom: 2rem;
+}
+
+.inclusions-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.inclusions-list {
+  list-style: none;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.inclusions-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+}
+
+.inclusions-list.included li svg {
+  color: #22c55e;
+  flex-shrink: 0;
+}
+
+.inclusions-list.excluded .x-mark {
+  color: #ef4444;
+  font-weight: bold;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.things-to-carry {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.things-to-carry li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.things-to-carry li svg {
+  color: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+/* Reviews */
+.reviews-header {
+  margin-bottom: 2rem;
+}
+
+.reviews-summary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+}
+
+.reviews-summary .rating-big {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.reviews-summary .stars {
+  display: flex;
+  gap: 2px;
+}
+
+.reviews-summary .reviews-count {
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.review-card {
+  background: var(--bg-secondary);
+  padding: 1.5rem;
+  border-radius: 16px;
+}
+
+.review-card__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.review-card__header img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.review-card__info h4 {
+  font-size: 1rem;
+  margin-bottom: 0.15rem;
+}
+
+.review-card__info span {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.review-card__rating {
+  margin-left: auto;
+  display: flex;
+  gap: 2px;
+}
+
+.review-card__title {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.review-card__text {
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* FAQs */
+.trek-faqs h3 {
+  margin-bottom: 1.5rem;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.faq-item {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.faq-item__question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.faq-item__question:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.faq-item__answer {
+  overflow: hidden;
+}
+
+.faq-item__answer p {
+  padding: 0 1.25rem 1.25rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* Sidebar - Booking Card */
+.trek-detail__sidebar {
+  position: relative;
+}
+
+.booking-card {
+  position: sticky;
+  top: 100px;
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+}
+
+.booking-card__price {
+  text-align: center;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.booking-card__price .original {
+  display: block;
+  color: var(--text-muted);
+  text-decoration: line-through;
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.booking-card__price .current {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.booking-card__price .per-person {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.booking-card__dates h4 {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.dates-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 240px;
+  overflow-y: auto;
+  margin-bottom: 1.5rem;
+}
+
+.date-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--bg-primary);
+  border-radius: 10px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.date-option:hover {
+  border-color: var(--accent-primary);
+}
+
+.date-option.selected {
+  border-color: var(--accent-primary);
+  background: rgba(232, 93, 4, 0.05);
+}
+
+.date-option input {
+  accent-color: var(--accent-primary);
+}
+
+.date-info {
+  flex: 1;
+}
+
+.date-info .date {
+  display: block;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.date-info .slots {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.batch-price {
+  font-weight: 600;
+  color: var(--accent-primary);
+  font-size: 0.95rem;
+}
+
+.btn-block {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.booking-card__contact {
+  text-align: center;
+  padding: 1rem;
+  background: var(--bg-primary);
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.booking-card__contact p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--accent-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.booking-card__features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.booking-card__features .feature {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.booking-card__features .feature svg {
+  color: var(--accent-primary);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .trek-detail__main {
+    grid-template-columns: 1fr;
+  }
+
+  .trek-detail__sidebar {
+    order: -1;
+  }
+
+  .booking-card {
+    position: static;
+  }
+
+  .trek-quick-info {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .trek-hero {
+    height: 60vh;
+    min-height: 400px;
+    padding: 2rem 5%;
+  }
+
+  .trek-hero__title {
+    font-size: 2rem;
+  }
+
+  .trek-hero__meta {
+    gap: 1rem;
+  }
+
+  .trek-quick-info {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: -2rem;
+    padding: 1.25rem;
+  }
+
+  .trek-tabs {
+    padding-bottom: 0.5rem;
+  }
+
+  .trek-tab {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .trek-gallery__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .things-to-carry {
+    grid-template-columns: 1fr;
+  }
+
+  .trek-leader__card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .trek-leader__card img {
+    margin: 0 auto;
+  }
+
+  .trek-leader__stats {
+    justify-content: center;
+  }
+
+  .itinerary-day__header {
+    flex-wrap: wrap;
+  }
+
+  .itinerary-day__meta {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .trek-hero__actions {
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .booking-card {
+    padding: 1rem;
+  }
+
+  .booking-card__price .current {
+    font-size: 2rem;
+  }
+}
+
