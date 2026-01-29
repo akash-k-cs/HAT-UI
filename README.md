@@ -11,6 +11,7 @@ A beautiful, modern React.js website inspired by [Indiahikes.com](https://indiah
 - 📋 **Trek Detail Pages** - Comprehensive trek pages with itinerary, pricing, reviews, and booking
 - ❓ **FAQ Section** - Accordion-style frequently asked questions
 - 📧 **Newsletter** - Email subscription form
+- 🤖 **AI Assistant** - Floating chat widget for user queries (available on all pages)
 - 📱 **Fully Responsive** - Works on all device sizes
 - 🔗 **React Router** - Client-side routing for seamless navigation
 
@@ -67,6 +68,11 @@ CONTENTSTACK_API_KEY=your_api_key_here
 CONTENTSTACK_MANAGEMENT_TOKEN=your_management_token_here
 CONTENTSTACK_ENVIRONMENT=production
 CONTENTSTACK_REGION=us
+
+# AI Assistant Configuration (Optional)
+VITE_ASSISTANT_API_URL=https://your-api-endpoint.com/chat
+VITE_ASSISTANT_AUTH_HEADER_KEY=Authorization
+VITE_ASSISTANT_AUTH_HEADER_VALUE=Bearer your_api_token_here
 ```
 
 2. Run the automated setup script to create all content types and entries:
@@ -86,26 +92,87 @@ The website includes fallback data for all content. If Contentstack is not confi
 
 This ensures the site works during development without CMS configuration.
 
+## AI Assistant Widget
+
+The website includes a floating AI Assistant widget that appears on all pages. Users can click the chat icon to open a conversational interface for queries about treks.
+
+### Configuration
+
+Add these environment variables to your `.env` file:
+
+```env
+VITE_ASSISTANT_API_URL=https://your-api-endpoint.com/chat
+VITE_ASSISTANT_AUTH_HEADER_KEY=Authorization
+VITE_ASSISTANT_AUTH_HEADER_VALUE=Bearer your_api_token_here
+```
+
+### API Request Format
+
+The assistant sends POST requests with this format:
+
+```json
+{
+  "query": "User's question here",
+  "conversation_id": "session_timestamp"
+}
+```
+
+### API Response Format
+
+The assistant expects responses in one of these formats:
+
+```json
+{
+  "response": "<p>HTML content here</p>"
+}
+// OR
+{
+  "answer": "<p>HTML content here</p>"
+}
+// OR
+{
+  "message": "<p>HTML content here</p>"
+}
+```
+
+The response content should be HTML-formatted as it will be rendered directly in the chat UI.
+
+### Features
+
+- 💬 Floating chat button with animation
+- 🎨 Beautiful conversational UI
+- 📱 Fully responsive (mobile-friendly)
+- ⌨️ Quick question suggestions
+- 📝 HTML response rendering (tables, lists, code, etc.)
+- 🔄 Loading states with typing indicator
+- ❌ Error handling with fallback contact info
+- 🎯 Minimizable chat window
+
 ## Project Structure
 
 ```
 src/
 ├── components/
-│   ├── Header.jsx & Header.css     # Navigation bar
-│   ├── Hero.jsx & Hero.css         # Hero carousel
-│   ├── Testimonials.jsx & .css     # Testimonial section
-│   ├── Features.jsx & Features.css # Why choose us
-│   ├── TrekCategories.jsx & .css   # Trek browsing
-│   ├── FAQ.jsx & FAQ.css           # FAQs
-│   └── Footer.jsx & Footer.css     # Footer
+│   ├── Header.jsx & Header.css       # Navigation bar
+│   ├── Hero.jsx & Hero.css           # Hero carousel
+│   ├── Testimonials.jsx & .css       # Testimonial section
+│   ├── Features.jsx & Features.css   # Why choose us
+│   ├── TrekCategories.jsx & .css     # Trek browsing
+│   ├── FAQ.jsx & FAQ.css             # FAQs
+│   ├── Footer.jsx & Footer.css       # Footer
+│   └── AIAssistant.jsx & .css        # AI Chat Widget
+├── pages/
+│   ├── HomePage.jsx                  # Home page
+│   ├── TreksPage.jsx & .css          # All treks listing
+│   └── TrekDetail.jsx & .css         # Individual trek details
 ├── hooks/
-│   └── useContentstack.js           # CMS data fetching hooks
+│   └── useContentstack.js            # CMS data fetching hooks
 ├── lib/
-│   └── contentstack.js              # Contentstack SDK configuration
-├── App.jsx                          # Main app component
-├── App.css                          # App styles
-├── main.jsx                         # Entry point
-└── index.css                        # Global styles & CSS variables
+│   └── contentstack.js               # Contentstack SDK configuration
+├── App.jsx                           # Main app component with routing
+├── App.css                           # App styles
+├── main.jsx                          # Entry point
+└── index.css                         # Global styles & CSS variables
 ```
 
 ## Design Features
